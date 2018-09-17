@@ -1,30 +1,27 @@
-import math
 import numpy as np
 import time
 
 start_time = time.time()
 
 errlist = []
-trialstot = 500
+trialstot = 100000
 
 n = 100
-p = np.array([12,20,40]) #,60,80,100
+p = np.array([12,20,40,60,80,100])
 for choice in p:
     errcount = 0
-    w = np.zeros([n,n])
     currp = np.zeros([choice,n])
     for trials in range(trialstot):
+        w = np.zeros([n, n])
         for x in range(choice):
             currp[x, :] = np.random.choice([-1, 1], n)
             w = w + np.outer(currp[x, :], currp[x, :])/n
 
         np.fill_diagonal(w, 0)
-
         pnum = np.random.randint(0,choice)
         nnum = np.random.randint(0,100)
-        nout = 0
-        # for l in range(n):
-        nout = nout + w[nnum, :].dot(currp[pnum, :])
+
+        nout = w[nnum, :].dot(currp[pnum, :])
 
         if nout < 0:
             nout = -1
@@ -34,7 +31,7 @@ for choice in p:
             continue
         else:
             errcount = errcount + 1
-            errperc = errcount/trialstot
+    errperc = errcount / trialstot
     errlist.append(errperc)
     print(errcount)
 print(errlist)
