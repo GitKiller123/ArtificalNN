@@ -1,6 +1,5 @@
 clear all; clc;
 
-%% CHANGE CALC OF H AND MAKE PATTERN PICKING STOCHASTIC
 
 input_raw = load('input_data_numeric.csv');
 x = input_raw(:,2:end);
