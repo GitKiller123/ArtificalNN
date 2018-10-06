@@ -11,8 +11,8 @@ validation_set_out = validation_set(:,3);
 T = 10^5;
 eta = 0.02;
 size_batch = 20;
-M1 = 3; %Amount of neurons in 1st hidden layer
-M2 = 2; %Amount of neurons in 2nd hidden layer
+M1 = 4; %Amount of neurons in 1st hidden layer
+M2 = 9; %Amount of neurons in 2nd hidden layer
 
 g = @(b)(tanh(b));  %Activation function
 g_prim = @(b)(sech(b)^2); %Derivative of the activation function
@@ -24,8 +24,8 @@ N_neurons = {2, M1, M2, 1}; %Amount of Neurons in each layer
 layers = length(N_neurons); %Amount of layers
 % for t = 1:100
 for l = 2:length(N_neurons)
-    w{l} = rand(N_neurons{l-1},N_neurons{l})*0.4-0.2; %Creating starting weights for each layer
-    theta{l} = rand(N_neurons{l},1)*2-1; %Creating starting thresholds for each layer
+    w{l} = normrnd(0,1,N_neurons{l-1},N_neurons{l}); %Creating starting weights for each layer
+    theta{l} = zeros(1,N_neurons{l}); %Creating starting thresholds for each layer
 end
 
 b = 0;
@@ -53,7 +53,7 @@ for trials = 1:10^5
         for j = 1:N_neurons{l-1}
             for k = 1:N_neurons{l}
                 for i = 1:N_neurons{l-2}
-                    b = b + w{l-1}(i,k)*V{l-2}(i)-theta{l-1}(k);
+                       b = b + w{l-1}(i,j)*V{l-2}(i)-theta{l-1}(j);
                 end
                 delta_temp = delta_temp + delta{l}(k)*w{l}(j,k)*sech(b)^2;
             end
@@ -73,7 +73,8 @@ for trials = 1:10^5
         dw = [];
         dtheta = [];
     end
-end
+    end
+
 %% VALIDATION
 for pattern = 1:size(validation_set_in,1)
     V{1} = validation_set_in(pattern,:);

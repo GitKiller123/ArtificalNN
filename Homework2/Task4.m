@@ -24,8 +24,8 @@ N_neurons = {2, M1, M2, 1}; %Amount of Neurons in each layer
 layers = length(N_neurons); %Amount of layers
 % for t = 1:100
 for l = 2:length(N_neurons)
-    w{l} = rand(N_neurons{l-1},N_neurons{l})*0.4-0.2; %Creating starting weights for each layer
-    theta{l} = rand(N_neurons{l},1)*2-1; %Creating starting thresholds for each layer
+    w{l} = normrnd(0,1); %Creating starting weights for each layer
+    theta{l} = 0; %Creating starting thresholds for each layer
 end
 %
 H_best = 10000;
