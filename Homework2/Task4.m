@@ -16,7 +16,7 @@ M2 = 2; %Amount of neurons in 2nd hidden layer
 
 g = @(b)(tanh(b));  %Activation function
 g_prim = @(b)(sech(b)^2); %Derivative of the activation function
-b = @(w,V,theta,i,l)(0.5*(w{l}(:,i)'*V{l-1}' - theta{l}(i)));
+b = @(w,V,theta,i,l)(w{l}(:,i)'*V{l-1}' - theta{l}(i));
 delta_func = @(w,V,theta,delta,i,j,l)(delta{l}(i)*w{l}(j,i)*g_prim(b(w,V,theta,j,l-1)));
 
 N_neurons = {2, M1, M2, 1}; %Amount of Neurons in each layer
@@ -24,7 +24,7 @@ N_neurons = {2, M1, M2, 1}; %Amount of Neurons in each layer
 layers = length(N_neurons); %Amount of layers
 % for t = 1:100
 for l = 2:length(N_neurons)
-    w{l} = normrnd(0,1); %Creating starting weights for each layer
+    w{l} = normrnd(0,1,N_neurons{l-1},N_neurons{l}); %Creating starting weights for each layer
     theta{l} = 0; %Creating starting thresholds for each layer
 end
 %

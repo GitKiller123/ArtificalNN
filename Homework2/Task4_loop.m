@@ -16,7 +16,7 @@ M2 = 9; %Amount of neurons in 2nd hidden layer
 
 g = @(b)(tanh(b));  %Activation function
 g_prim = @(b)(sech(b)^2); %Derivative of the activation function
-b = @(w,V,theta,i,l)(0.5*(w{l}(:,i)'*V{l-1}' - theta{l}(i)));
+b = @(w,V,theta,i,l)(w{l}(:,i)'*V{l-1}' - theta{l}(i));
 delta_func = @(w,V,theta,delta,i,j,l)(delta{l}(i)*w{l}(j,i)*g_prim(b(w,V,theta,j,l-1)));
 
 N_neurons = {2, M1, M2, 1}; %Amount of Neurons in each layer
@@ -30,7 +30,7 @@ end
 
 b = 0;
 for trials = 1:10^5
-    pattern = randi(size(training_set_in,1));
+    pattern = trials;
     V{1} = training_set_in(pattern,:);
     for l = 2:layers
         for k = 1:N_neurons{l}
@@ -73,7 +73,6 @@ for trials = 1:10^5
         dw = [];
         dtheta = [];
     end
-    end
 
 %% VALIDATION
 for pattern = 1:size(validation_set_in,1)
@@ -90,4 +89,5 @@ for pattern = 1:size(validation_set_in,1)
     O(pattern,:) = V{end}(:);
 end
 C = (1/(2*length(validation_set_out)))*sum(abs(sign(O)-validation_set_out))
+end
     
