@@ -68,18 +68,11 @@ for epoch = 1:total_epochs
                 delta_theta{l} = delta_theta{l} - mu*delta{l};
             end
             counter = counter + 1;
-%             pos = find(V{end}==max(V{end}));
-%             V{end}(pos) = 1;
-%             V{end}([1:pos-1 pos+1:end]) = 0;
-%             H_temp(test) = (tTrain(:,pattern)-V{end})'*(tTrain(:,pattern)-V{end});
         end
-%         H(counter2) = 0.5*sum(H_temp);
         for l = 2:layers
             w{l} = w{l} + delta_w{l};
             theta{l} = theta{l} + delta_theta{l};
-%             U{l}(counter2) = norm(delta_tot{l});
         end
-%         counter2 = counter2 + 1;
     end
         for l = 2:layers
         u_l_tot{l} = zeros(N_neurons{l},1);
@@ -108,15 +101,16 @@ for epoch = 1:total_epochs
     end
     H(epoch) = 0.5*sum(H_temp);
 end
-% C_train_tot{curr_case} = C_train;
-% C_val_tot{curr_case} = C_val;
-% end
+
 toc
 %% plot
+figure(1)
 for l = 2:layers
-    plot(U{l})
+    semilogy(U{l})
     hold on
     xlabel('Epochs')
     ylabel('Learning speed')
 end
 legend('layer 2', 'layer 3', 'layer 4', 'layer 5', 'layer 6')
+figure(2)
+plot(H)
